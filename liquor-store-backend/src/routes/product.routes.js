@@ -11,6 +11,9 @@ const productController = require('../controllers/product.controller');
 // Importar middlewares
 const { verifyToken, isAdmin } = require('../middlewares/auth.middleware');
 const { uploadProductImage } = require('../middlewares/upload.middleware');
+const { validateProduct } = require('../middlewares/validation.middleware');
+const { validateStock } = require('../middlewares/validation.middleware');
+
 
 // ============================================
 // RUTAS PÚBLICAS
@@ -33,13 +36,19 @@ router.get('/:id', productController.getById);
 // ============================================
 
 // POST /api/products - Crear nuevo producto (RF07)
-router.post('/', verifyToken, isAdmin, productController.create);
+//router.post('/', verifyToken, isAdmin, productController.create);
+router.post('/', verifyToken, isAdmin, validateProduct, productController.create);
+
 
 // PUT /api/products/:id - Actualizar producto (RF07)
-router.put('/:id', verifyToken, isAdmin, productController.update);
+//router.put('/:id', verifyToken, isAdmin, productController.update);
+router.put('/:id', verifyToken, isAdmin, validateProduct, productController.update);
+
 
 // PATCH /api/products/:id/stock - Actualizar solo el stock (RF07)
-router.patch('/:id/stock', verifyToken, isAdmin, productController.updateStock);
+//router.patch('/:id/stock', verifyToken, isAdmin, productController.updateStock);
+router.patch('/:id/stock', verifyToken, isAdmin, validateStock, productController.updateStock);
+
 
 // DELETE /api/products/:id - Eliminar producto (RF07)
 router.delete('/:id', verifyToken, isAdmin, productController.delete);

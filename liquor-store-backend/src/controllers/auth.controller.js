@@ -79,6 +79,9 @@ const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
+    console.log("➡️ BODY RECIBIDO:", req.body);
+
+
     // Buscar usuario por email
     const result = await query(
       'SELECT * FROM users WHERE email = $1',

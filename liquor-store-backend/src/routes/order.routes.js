@@ -10,6 +10,7 @@ const orderController = require('../controllers/order.controller');
 
 // Importar middlewares
 const { verifyToken, isAdmin } = require('../middlewares/auth.middleware');
+const { validateOrderStatus } = require('../middlewares/validation.middleware');
 
 // ============================================
 // RUTAS DE CLIENTE (requieren autenticación)
@@ -32,6 +33,8 @@ router.get('/:id', verifyToken, orderController.getById);
 router.get('/', verifyToken, isAdmin, orderController.getAll);
 
 // PATCH /api/orders/:id/status - Actualizar estado del pedido (RF08)
-router.patch('/:id/status', verifyToken, isAdmin, orderController.updateStatus);
+//router.patch('/:id/status', verifyToken, isAdmin, orderController.updateStatus);
+router.patch('/:id/status', verifyToken, isAdmin, validateOrderStatus, orderController.updateStatus);
+
 
 module.exports = router;

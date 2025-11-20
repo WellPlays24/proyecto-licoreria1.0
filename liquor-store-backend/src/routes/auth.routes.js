@@ -5,6 +5,10 @@
 const express = require('express');
 const router = express.Router();
 
+// Importar middlewares de validación
+const { validateRegister } = require('../middlewares/validation.middleware');
+const { validateLogin } = require('../middlewares/validation.middleware');
+
 // Importar controladores
 const authController = require('../controllers/auth.controller');
 
@@ -16,10 +20,11 @@ const { verifyToken } = require('../middlewares/auth.middleware');
 // ============================================
 
 // POST /api/auth/register - Registrar nuevo usuario
-router.post('/register', authController.register);
+//router.post('/register', authController.register);
+router.post('/register', validateRegister, authController.register);
 
 // POST /api/auth/login - Iniciar sesión
-router.post('/login', authController.login);
+router.post('/login', validateLogin, authController.login);
 
 // ============================================
 // RUTAS PROTEGIDAS (requieren autenticación)

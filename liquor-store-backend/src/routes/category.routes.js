@@ -10,6 +10,7 @@ const categoryController = require('../controllers/category.controller');
 
 // Importar middlewares
 const { verifyToken, isAdmin } = require('../middlewares/auth.middleware');
+const { validateCategory } = require('../middlewares/validation.middleware');
 
 // ============================================
 // RUTAS PÚBLICAS
@@ -26,10 +27,14 @@ router.get('/:id', categoryController.getById);
 // ============================================
 
 // POST /api/categories - Crear nueva categoría
-router.post('/', verifyToken, isAdmin, categoryController.create);
+//router.post('/', verifyToken, isAdmin, categoryController.create);
+router.post('/', verifyToken, isAdmin, validateCategory, categoryController.create);
+
 
 // PUT /api/categories/:id - Actualizar categoría
-router.put('/:id', verifyToken, isAdmin, categoryController.update);
+//router.put('/:id', verifyToken, isAdmin, categoryController.update);
+router.put('/:id', verifyToken, isAdmin, validateCategory, categoryController.update);
+
 
 // DELETE /api/categories/:id - Eliminar categoría
 router.delete('/:id', verifyToken, isAdmin, categoryController.delete);
