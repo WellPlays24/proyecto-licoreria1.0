@@ -1,1 +1,107 @@
-<p>home works!</p>
+<!-- ============================================
+     PÁGINA HOME - LANDING PAGE
+     ============================================ -->
+
+<!-- Hero Section -->
+<section class="hero-section">
+  <div class="hero-content">
+    <h1>
+      <mat-icon>liquor</mat-icon>
+      Bienvenido a Licorería Online
+    </h1>
+    <p class="hero-subtitle">Las mejores bebidas al mejor precio</p>
+    
+    <div class="hero-buttons" *ngIf="!isAuthenticated">
+      <button mat-raised-button color="primary" (click)="goToLogin()">
+        <mat-icon>login</mat-icon>
+        Iniciar Sesión
+      </button>
+      <button mat-raised-button color="accent" (click)="goToRegister()">
+        <mat-icon>person_add</mat-icon>
+        Registrarse
+      </button>
+    </div>
+
+    <div class="hero-buttons" *ngIf="isAuthenticated">
+      <button mat-raised-button color="primary" (click)="goToProducts()">
+        <mat-icon>shopping_bag</mat-icon>
+        Ver Productos
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- Categorías Section -->
+<section class="categories-section">
+  <div class="container">
+    <h2 class="section-title">Categorías</h2>
+    <div class="categories-grid">
+      <mat-card *ngFor="let category of categories" class="category-card">
+        <mat-card-content>
+          <mat-icon>category</mat-icon>
+          <h3>{{ category.name }}</h3>
+          <p>{{ category.description }}</p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</section>
+
+<!-- Productos Destacados Section -->
+<section class="products-section">
+  <div class="container">
+    <h2 class="section-title">Productos Destacados</h2>
+    
+    <!-- Loading -->
+    <div *ngIf="loading" class="loading-container">
+      <mat-spinner></mat-spinner>
+    </div>
+
+    <!-- Grid de productos -->
+    <div *ngIf="!loading" class="products-grid">
+      <mat-card *ngFor="let product of featuredProducts" class="product-card" (click)="onProductClick(product)">
+        <img 
+          mat-card-image 
+          [src]="product.image_url || 'https://via.placeholder.com/300x400?text=Sin+Imagen'" 
+          [alt]="product.name"
+          class="product-image">
+        
+        <mat-card-content>
+          <h3 class="product-name">{{ product.name }}</h3>
+          <p class="product-category">{{ product.category_name }}</p>
+          <div class="product-footer">
+            <span class="product-price">${{ product.price }}</span>
+            <mat-icon *ngIf="!isAuthenticated" class="lock-icon">lock</mat-icon>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <!-- Mensaje para usuarios no autenticados -->
+    <div *ngIf="!isAuthenticated && !loading" class="login-prompt">
+      <mat-card>
+        <mat-card-content>
+          <mat-icon>info</mat-icon>
+          <p>Para ver más detalles y comprar productos, debes iniciar sesión</p>
+          <button mat-raised-button color="primary" (click)="goToLogin()">
+            Iniciar Sesión
+          </button>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</section>
+
+<!-- Call to Action Section -->
+<section class="cta-section">
+  <div class="container">
+    <h2>¿Listo para tu primera compra?</h2>
+    <p>Regístrate ahora y disfruta de nuestros productos</p>
+    <button mat-raised-button color="accent" size="large" (click)="goToRegister()" *ngIf="!isAuthenticated">
+      Crear Cuenta Gratis
+    </button>
+    <button mat-raised-button color="primary" size="large" (click)="goToProducts()" *ngIf="isAuthenticated">
+      Ver Catálogo Completo
+    </button>
+  </div>
+</section>

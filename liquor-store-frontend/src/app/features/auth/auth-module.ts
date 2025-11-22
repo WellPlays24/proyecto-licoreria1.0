@@ -28,6 +28,7 @@ import { Register } from './register/register';
   imports: [
     Login,
     Register,
+    
     CommonModule,
     ReactiveFormsModule,
     AuthRoutingModule,

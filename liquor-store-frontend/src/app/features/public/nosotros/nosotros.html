@@ -1,1 +1,159 @@
-<p>nosotros works!</p>
+<!-- ============================================
+     PÁGINA NOSOTROS - RF09
+     ============================================ -->
+
+<div class="nosotros-container">
+  <!-- Header -->
+  <section class="header-section">
+    <div class="container">
+      <h1>
+        <mat-icon>info</mat-icon>
+        Sobre Nosotros
+      </h1>
+      <p class="subtitle">Conoce más sobre Licorería Online</p>
+    </div>
+  </section>
+
+  <!-- Contenido principal -->
+  <section class="content-section">
+    <div class="container">
+      <mat-card class="about-card">
+        <mat-card-content>
+          <div class="about-grid">
+            <!-- Quiénes somos -->
+            <div class="about-item">
+              <mat-icon class="section-icon">store</mat-icon>
+              <h2>¿Quiénes Somos?</h2>
+              <p>
+                Somos una licorería en línea comprometida con ofrecer las mejores bebidas 
+                alcohólicas del mercado. Con años de experiencia en el sector, nos hemos 
+                consolidado como una opción confiable para nuestros clientes.
+              </p>
+            </div>
+
+            <!-- Misión -->
+            <div class="about-item">
+              <mat-icon class="section-icon">flag</mat-icon>
+              <h2>Nuestra Misión</h2>
+              <p>
+                Proporcionar a nuestros clientes una experiencia de compra excepcional, 
+                ofreciendo productos de calidad al mejor precio, con un servicio rápido 
+                y seguro desde la comodidad de su hogar.
+              </p>
+            </div>
+
+            <!-- Visión -->
+            <div class="about-item">
+              <mat-icon class="section-icon">visibility</mat-icon>
+              <h2>Nuestra Visión</h2>
+              <p>
+                Ser la plataforma líder de venta de bebidas alcohólicas en línea, 
+                reconocida por nuestra calidad, variedad de productos y excelencia 
+                en el servicio al cliente.
+              </p>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Valores -->
+      <mat-card class="values-card">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon>favorite</mat-icon>
+            Nuestros Valores
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="values-grid">
+            <div class="value-item">
+              <mat-icon>verified</mat-icon>
+              <h3>Calidad</h3>
+              <p>Solo productos certificados y de las mejores marcas</p>
+            </div>
+            <div class="value-item">
+              <mat-icon>security</mat-icon>
+              <h3>Confianza</h3>
+              <p>Transacciones seguras y protección de datos</p>
+            </div>
+            <div class="value-item">
+              <mat-icon>local_shipping</mat-icon>
+              <h3>Rapidez</h3>
+              <p>Entregas rápidas y puntuales a domicilio</p>
+            </div>
+            <div class="value-item">
+              <mat-icon>support_agent</mat-icon>
+              <h3>Atención</h3>
+              <p>Servicio al cliente disponible siempre que lo necesites</p>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Catálogo -->
+      <mat-card class="catalog-card">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon>liquor</mat-icon>
+            Nuestro Catálogo
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p class="catalog-description">
+            Contamos con una amplia variedad de productos que incluyen:
+          </p>
+          <div class="catalog-list">
+            <mat-chip-set>
+              <mat-chip>
+                <mat-icon>local_bar</mat-icon>
+                Whiskys Premium
+              </mat-chip>
+              <mat-chip>
+                <mat-icon>sports_bar</mat-icon>
+                Rones Añejos
+              </mat-chip>
+              <mat-chip>
+                <mat-icon>wine_bar</mat-icon>
+                Vinos Selectos
+              </mat-chip>
+              <mat-chip>
+                <mat-icon>emoji_food_beverage</mat-icon>
+                Vodkas Importados
+              </mat-chip>
+              <mat-chip>
+                <mat-icon>local_drink</mat-icon>
+                Cervezas Artesanales
+              </mat-chip>
+              <mat-chip>
+                <mat-icon>celebration</mat-icon>
+                Licores Especiales
+              </mat-chip>
+            </mat-chip-set>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Advertencia legal -->
+      <mat-card class="warning-card">
+        <mat-card-content>
+          <mat-icon class="warning-icon">warning</mat-icon>
+          <h3>Consumo Responsable</h3>
+          <p>
+            ⚠️ <strong>Prohibida la venta de alcohol a menores de edad.</strong><br>
+            El consumo excesivo de alcohol es perjudicial para la salud. 
+            Bebe con responsabilidad.
+          </p>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Call to Action -->
+      <div class="cta-container">
+        <h2>¿Listo para explorar nuestros productos?</h2>
+        <button mat-raised-button color="primary" (click)="goToProducts()">
+          <mat-icon>shopping_bag</mat-icon>
+          {{ isAuthenticated ? 'Ver Catálogo' : 'Iniciar Sesión' }}
+        </button>
+      </div>
+    </div>
+  </section>
+</div>

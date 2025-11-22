@@ -17,18 +17,21 @@ export const routes: Routes = [
   },
 
   // ============================================
-  // RUTAS DE AUTENTICACIÓN
+
   // ============================================
-  {
-    path: 'login',
-    canActivate: [noAuthGuard],
-    loadChildren: () => import('./features/auth/auth-module').then(m => m.AuthModule)
-  },
-  {
-    path: 'register',
-    canActivate: [noAuthGuard],
-    loadChildren: () => import('./features/auth/auth-module').then(m => m.AuthModule)
-  },
+// RUTAS DE AUTENTICACIÓN
+// ============================================
+{
+  path: 'login',
+  canActivate: [noAuthGuard],
+  loadComponent: () => import('./features/auth/login/login').then(m => m.Login)
+},
+{
+  path: 'register',
+  canActivate: [noAuthGuard],
+  loadComponent: () => import('./features/auth/register/register').then(m => m.Register)
+},
+
 
   // ============================================
   // RUTAS DE CLIENTE (requieren autenticación)

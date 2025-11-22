@@ -27,6 +27,17 @@ export class ProductService {
     return this.http.get<ProductResponse>(this.apiUrl, { params });
   }
 
+  getAll0(activeOnly: boolean = true): Observable<Product[]> {
+  let params = new HttpParams();
+
+  if (activeOnly) {
+    params = params.set('active', 'true');
+  }
+
+  return this.http.get<Product[]>(this.apiUrl, { params });
+}
+
+
   // ============================================
   // BUSCAR PRODUCTOS
   // ============================================
