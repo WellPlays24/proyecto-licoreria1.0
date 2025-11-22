@@ -1,0 +1,96 @@
+/* ============================================
+   ESTILOS DEL NAVBAR
+   ============================================ */
+
+.navbar {
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.navbar-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Logo */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: rgb(68, 4, 4);
+  font-size: 1.5rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.logo mat-icon {
+  font-size: 28px;
+  width: 28px;
+  height: 28px;
+}
+
+.logo:hover {
+  opacity: 0.9;
+}
+
+/* Spacer para empujar el menú a la derecha */
+.spacer {
+  flex: 1 1 auto;
+}
+
+/* Enlaces de navegación */
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav-links button {
+  text-transform: none;
+  font-size: 0.95rem;
+}
+
+.nav-links button mat-icon {
+  margin-right: 4px;
+}
+
+/* Botón activo */
+.nav-links button.active {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Información del usuario en el menú */
+.user-info {
+  padding: 8px 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-badge {
+  font-size: 0.75rem;
+  color: #ff4081;
+  font-weight: 500;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .navbar-container {
+    padding: 0 10px;
+  }
+
+  .nav-links button span {
+    display: none;
+  }
+
+  .nav-links button mat-icon {
+    margin-right: 0;
+  }
+
+  .logo span {
+    display: none;
+  }
+}

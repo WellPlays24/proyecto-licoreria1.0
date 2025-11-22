@@ -1,0 +1,27 @@
+/* ============================================
+   ESTILOS PRINCIPALES DE LA APLICACIÓN
+   ============================================ */
+
+/* Contenedor principal */
+.main-content {
+  min-height: calc(100vh - 64px - 100px); /* altura viewport - navbar - footer */
+  padding: 20px;
+  background-color: #f5f5f5;
+}
+
+/* Asegurar que el footer quede al final */
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+app-navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+app-footer {
+  margin-top: auto;
+}
