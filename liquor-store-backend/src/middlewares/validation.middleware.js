@@ -80,6 +80,8 @@ const validateProduct = (req, res, next) => {
   const { category_id, name, price, stock } = req.body;
   const errors = [];
 
+  console.log("📥 BODY RECIBIDO EN validateProduct:", req.body);
+
   // Validar categoría
   if (!category_id || isNaN(category_id)) {
     errors.push('La categoría es requerida y debe ser un número');
