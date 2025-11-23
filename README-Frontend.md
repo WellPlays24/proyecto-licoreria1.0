@@ -94,7 +94,7 @@ Incluye autenticación JWT, manejo de roles, carrito persistente, CRUD de produc
     ✔ Inputs mat-form-field
     ✔ mat-progress-spinner
 
-    Ejemplo del navbar real de tu proyecto:
+# Ejemplo del navbar real del proyecto:
 
     <div class="nav-links" *ngIf="!isAuthenticated">
     <button mat-button routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
