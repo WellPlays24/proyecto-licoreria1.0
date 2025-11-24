@@ -36,4 +36,9 @@ router.get('/profile', verifyToken, authController.getProfile);
 // PUT /api/auth/profile - Actualizar perfil
 router.put('/profile', verifyToken, authController.updateProfile);
 
+
+// cambiar clave
+// POST /api/auth/change-password - Cambiar contraseña
+router.post('/change-password', verifyToken, authController.changePassword);
+
 module.exports = router;

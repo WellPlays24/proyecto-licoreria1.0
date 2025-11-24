@@ -1,0 +1,60 @@
+<div class="product-dialog">
+    <!-- Close Button -->
+    <button mat-icon-button class="close-btn" (click)="close()">
+        <mat-icon>close</mat-icon>
+    </button>
+
+    <!-- Product Image -->
+    <div class="product-image-container">
+        <img [src]="product.image_url || 'https://via.placeholder.com/400x400?text=Sin+Imagen'" [alt]="product.name"
+            class="product-image">
+    </div>
+
+    <!-- Product Info -->
+    <div class="product-info">
+        <h2 class="product-name">{{ product.name }}</h2>
+
+        <div class="product-description" *ngIf="product.description">
+            <p>{{ product.description }}</p>
+        </div>
+
+        <div class="product-category" *ngIf="product.category_name">
+            <mat-icon>category</mat-icon>
+            <span>{{ product.category_name }}</span>
+        </div>
+
+        <div class="stock-info">
+            <span class="stock-label">Stock disponible:</span>
+            <span class="stock-value" [class.low-stock]="product.stock < 5">
+                {{ product.stock }} unidades
+            </span>
+        </div>
+
+        <div class="price-section">
+            <span class="price-label">Precio</span>
+            <span class="price-value">${{ product.price }}</span>
+        </div>
+
+        <!-- Quantity Controls -->
+        <div class="quantity-section">
+            <label class="quantity-label">Cantidad</label>
+            <div class="quantity-controls">
+                <button mat-icon-button (click)="decreaseQuantity()" [disabled]="quantity <= 1" class="quantity-btn">
+                    <mat-icon>remove</mat-icon>
+                </button>
+                <span class="quantity-value">{{ quantity }}</span>
+                <button mat-icon-button (click)="increaseQuantity()" [disabled]="quantity >= product.stock"
+                    class="quantity-btn">
+                    <mat-icon>add</mat-icon>
+                </button>
+            </div>
+        </div>
+
+        <!-- Add to Cart Button -->
+        <button mat-raised-button color="primary" class="add-to-cart-btn" (click)="addToCart()"
+            [disabled]="product.stock === 0">
+            <mat-icon>shopping_cart</mat-icon>
+            Añadir ${{ (product.price * quantity).toFixed(2) }}
+        </button>
+    </div>
+</div>

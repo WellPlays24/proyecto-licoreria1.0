@@ -231,9 +231,72 @@ const updateProfile = async (req, res) => {
   }
 };
 
+
+
+// ============================================
+// ELIMINAR PERFIL DEL USUARIO
+// ============================================
+const deleteUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await query('DELETE FROM users WHERE id = $1 RETURNING id', [id]);
+    
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Usuario no encontrado' });
+    }
+    res.json({ message: 'Usuario eliminado correctamente' });
+  } catch (error) {
+    console.error('Error en deleteUser:', error);
+    res.status(500).json({ error: 'Error al eliminar usuario', message: error.message });
+  }
+};
+
+// ============================================
+// CAMBIAR CLAVE DEL USUARIO
+// ============================================
+const changePassword = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const { currentPassword, newPassword } = req.body;
+
+    // Obtener usuario actual
+    const userResult = await query(
+      'SELECT password FROM users WHERE id = $1',
+      [userId]
+    );
+
+    if (userResult.rows.length === 0) {
+      return res.status(404).json({ error: 'Usuario no encontrado' });
+    }
+
+    // Verificar contraseña actual
+    const isValidPassword = await bcrypt.compare(currentPassword, userResult.rows[0].password);
+    if (!isValidPassword) {
+      return res.status(401).json({ error: 'Contraseña actual incorrecta' });
+    }
+
+    // Hashear nueva contraseña
+    const saltRounds = parseInt(process.env.BCRYPT_ROUNDS) || 10;
+    const hashedPassword = await bcrypt.hash(newPassword, saltRounds);
+
+    // Actualizar contraseña
+    await query(
+      'UPDATE users SET password = $1, updated_at = NOW() WHERE id = $2',
+      [hashedPassword, userId]
+    );
+
+    res.json({ message: 'Contraseña actualizada exitosamente' });
+  } catch (error) {
+    console.error('Error en changePassword:', error);
+    res.status(500).json({ error: 'Error al cambiar contraseña' });
+  }
+};
+
 module.exports = {
   register,
   login,
   getProfile,
-  updateProfile
+  updateProfile,
+  deleteUser,
+  changePassword
 };

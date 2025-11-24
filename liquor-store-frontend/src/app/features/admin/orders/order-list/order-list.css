@@ -1,0 +1,122 @@
+.orders-container {
+    padding: 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.header h1 {
+    font-size: 28px;
+    font-weight: 500;
+    color: #1a1a1a;
+    margin: 0;
+    letter-spacing: -0.5px;
+}
+
+.search-field {
+    width: 100%;
+    margin-bottom: 24px;
+    font-size: 14px;
+}
+
+.table-container {
+    border-radius: 12px;
+    overflow: hidden;
+    background: white;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+table {
+    width: 100%;
+}
+
+th.mat-header-cell {
+    font-weight: 600;
+    color: #4a4a4a;
+    font-size: 14px;
+    padding: 16px;
+}
+
+td.mat-cell {
+    padding: 16px;
+    font-size: 14px;
+    color: #333;
+    vertical-align: middle;
+}
+
+.mat-mdc-row .mat-mdc-cell {
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.mat-mdc-row:hover {
+    background-color: #fafafa;
+}
+
+.customer-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.customer-info .name {
+    font-weight: 500;
+}
+
+.customer-info .email {
+    font-size: 12px;
+    color: #666;
+}
+
+/* Status Colors */
+.status-pending {
+    background-color: #ff9800 !important;
+    /* Orange */
+    color: white !important;
+}
+
+.status-processing {
+    background-color: #2196f3 !important;
+    /* Blue */
+    color: white !important;
+}
+
+.status-shipped {
+    background-color: #9c27b0 !important;
+    /* Purple */
+    color: white !important;
+}
+
+.status-delivered {
+    background-color: #4caf50 !important;
+    /* Green */
+    color: white !important;
+}
+
+.status-cancelled {
+    background-color: #f44336 !important;
+    /* Red */
+    color: white !important;
+}
+
+.status-default {
+    background-color: #9e9e9e !important;
+    /* Grey */
+    color: white !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .orders-container {
+        padding: 16px;
+    }
+
+    .table-container {
+        overflow-x: auto;
+    }
+}

@@ -4,7 +4,7 @@
 
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/services/auth';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatCard, MatCardContent, MatCardHeader, MatCardSubtitle, MatCardTitle } from '@angular/material/card';
@@ -32,7 +32,8 @@ import { MatInput } from '@angular/material/input';
     MatSpinner,
     ReactiveFormsModule,
     NgIf,
-    MatInput
+    MatInput,
+    RouterLink,
 
   ]
 })
@@ -48,7 +49,7 @@ export class Login implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private snackBar: MatSnackBar
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     // Obtener URL de retorno si existe
@@ -104,30 +105,35 @@ export class Login implements OnInit {
 
     this.authService.login(credentials).subscribe({
       next: (response) => {
-        this.loading = false;
-        this.snackBar.open(`¡Bienvenido ${response.user.name}!`, 'Cerrar', {
-          duration: 3000,
-          horizontalPosition: 'end',
-          verticalPosition: 'top'
-        });
+        // Usar setTimeout para evitar error NG0100
+        setTimeout(() => {
+          this.loading = false;
+          this.snackBar.open(`¡Bienvenido ${response.user.name}!`, 'Cerrar', {
+            duration: 3000,
+            horizontalPosition: 'end',
+            verticalPosition: 'top'
+          });
 
-        // Redirigir según el rol
-        if (response.user.role === 'admin') {
-          this.router.navigate(['/admin/dashboard']);
-        } else {
-          // Si hay returnUrl, ir ahí, sino a productos
-          const url = this.returnUrl !== '/' ? this.returnUrl : '/products';
-          this.router.navigate([url]);
-        }
+          // Redirigir según el rol
+          if (response.user.role === 'admin') {
+            this.router.navigate(['/admin/dashboard']);
+          } else {
+            // Si hay returnUrl, ir ahí, sino a productos
+            const url = this.returnUrl !== '/' ? this.returnUrl : '/products';
+            this.router.navigate([url]);
+          }
+        });
       },
       error: (error) => {
-        this.loading = false;
-        const errorMessage = error.error?.message || 'Error al iniciar sesión. Verifica tus credenciales.';
-        this.snackBar.open(errorMessage, 'Cerrar', {
-          duration: 5000,
-          horizontalPosition: 'end',
-          verticalPosition: 'top',
-          panelClass: ['error-snackbar']
+        setTimeout(() => {
+          this.loading = false;
+          const errorMessage = error.error?.message || 'Error al iniciar sesión. Verifica tus credenciales.';
+          this.snackBar.open(errorMessage, 'Cerrar', {
+            duration: 5000,
+            horizontalPosition: 'end',
+            verticalPosition: 'top',
+            panelClass: ['error-snackbar']
+          });
         });
       }
     });

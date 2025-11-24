@@ -1,1 +1,156 @@
-<p>product-detail works!</p>
+<!-- ============================================
+     PRODUCT DETAIL CLIENTE - RF03, RF04
+     ============================================ -->
+
+<div class="product-detail-container">
+  <!-- Botón volver -->
+  <button mat-button class="back-button" (click)="goBack()">
+    <mat-icon>arrow_back</mat-icon>
+    Volver al catálogo
+  </button>
+
+  <!-- Loading -->
+  <div *ngIf="loading" class="loading-container">
+    <mat-spinner></mat-spinner>
+    <p>Cargando producto...</p>
+  </div>
+
+  <!-- Producto -->
+  <mat-card *ngIf="!loading && product" class="product-detail-card">
+    <div class="product-detail-grid">
+      <!-- Imagen -->
+      <div class="product-image-section">
+        <img 
+          [src]="product.image_url || 'https://via.placeholder.com/500x600?text=Sin+Imagen'" 
+          [alt]="product.name"
+          class="product-image">
+      </div>
+
+      <!-- Información -->
+      <div class="product-info-section">
+        <!-- Categoría -->
+        <div class="product-category">
+          <mat-icon>category</mat-icon>
+          {{ product.category_name }}
+        </div>
+
+        <!-- Nombre -->
+        <h1 class="product-name">{{ product.name }}</h1>
+
+        <!-- Precio -->
+        <div class="product-price">
+          <span class="price-label">Precio:</span>
+          <span class="price-value">${{ product.price }}</span>
+        </div>
+
+        <!-- Estado de stock (RF04) -->
+        <mat-chip 
+          class="stock-chip"
+          [color]="getStockStatus().color">
+          <mat-icon>{{ getStockStatus().icon }}</mat-icon>
+          {{ getStockStatus().text }}
+        </mat-chip>
+
+        <!-- Descripción -->
+        <div class="product-description">
+          <h3>Descripción</h3>
+          <p>{{ product.description || 'Sin descripción disponible' }}</p>
+        </div>
+
+        <mat-divider></mat-divider>
+
+        <!-- Selector de cantidad (RF03) -->
+        <div class="quantity-section">
+          <h3>Cantidad</h3>
+          <div class="quantity-controls">
+            <button 
+              mat-icon-button 
+              (click)="decrementQuantity()"
+              [disabled]="quantityControl.value === 1 || product.stock === 0">
+              <mat-icon>remove</mat-icon>
+            </button>
+            
+            <mat-form-field appearance="outline" class="quantity-input">
+              <input 
+                matInput 
+                type="number" 
+                [formControl]="quantityControl"
+                min="1"
+                [max]="product.stock"
+                [disabled]="product.stock === 0">
+              <mat-error *ngIf="quantityControl.invalid">
+                {{ getQuantityErrorMessage() }}
+              </mat-error>
+            </mat-form-field>
+            
+            <button 
+              mat-icon-button 
+              (click)="incrementQuantity()"
+              [disabled]="quantityControl.value === product.stock || product.stock === 0">
+              <mat-icon>add</mat-icon>
+            </button>
+          </div>
+        </div>
+
+        <!-- Botón agregar al carrito -->
+        <div class="action-buttons">
+          <button 
+            mat-raised-button 
+            color="primary" 
+            class="add-to-cart-button"
+            (click)="addToCart()"
+            [disabled]="product.stock === 0 || quantityControl.invalid || addingToCart">
+            <mat-spinner *ngIf="addingToCart" diameter="20" class="button-spinner"></mat-spinner>
+            <mat-icon *ngIf="!addingToCart">shopping_cart</mat-icon>
+            <span *ngIf="!addingToCart">Agregar al Carrito</span>
+          </button>
+
+          <button 
+            mat-stroked-button 
+            color="accent"
+            routerLink="/cart">
+            <mat-icon>shopping_cart</mat-icon>
+            Ver Carrito
+          </button>
+        </div>
+
+        <!-- Información adicional -->
+        <mat-card class="info-card">
+          <mat-card-content>
+            <div class="info-item">
+              <mat-icon>local_shipping</mat-icon>
+              <div>
+                <strong>Envío rápido</strong>
+                <p>Entrega en 24-48 horas</p>
+              </div>
+            </div>
+            <mat-divider></mat-divider>
+            <div class="info-item">
+              <mat-icon>verified_user</mat-icon>
+              <div>
+                <strong>Producto garantizado</strong>
+                <p>100% original</p>
+              </div>
+            </div>
+            <mat-divider></mat-divider>
+            <div class="info-item">
+              <mat-icon>support_agent</mat-icon>
+              <div>
+                <strong>Soporte</strong>
+                <p>Atención al cliente 24/7</p>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+
+        <!-- Advertencia legal -->
+        <mat-card class="warning-card">
+          <mat-card-content>
+            <mat-icon>warning</mat-icon>
+            <p>⚠️ Prohibida la venta de alcohol a menores de edad</p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </mat-card>
+</div>

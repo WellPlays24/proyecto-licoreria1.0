@@ -1,0 +1,95 @@
+<div class="loading-container" *ngIf="loading">
+    <mat-spinner diameter="50"></mat-spinner>
+    <p>Cargando pedido...</p>
+</div>
+
+<div class="error-container" *ngIf="!loading && !order">
+    <p>No se pudo cargar la información del pedido.</p>
+    <button mat-button routerLink="/admin/orders">Volver</button>
+</div>
+
+<div class="form-container" *ngIf="order && !loading">
+    <mat-card>
+        <mat-card-header>
+            <div class="header-content">
+                <mat-card-title>Detalles del Pedido #{{order.id}}</mat-card-title>
+                <span class="date">{{order.created_at | date:'medium'}}</span>
+            </div>
+        </mat-card-header>
+
+        <mat-card-content>
+
+            <div class="details-grid">
+                <!-- Customer Info -->
+                <div class="section customer-section">
+                    <h3>Información del Cliente</h3>
+                    <div class="info-row">
+                        <mat-icon matTooltip="Nombre del cliente">person</mat-icon>
+                        <span>{{order.customer_name || 'Usuario #' + order.user_id}}</span>
+                    </div>
+                    <div class="info-row">
+                        <mat-icon matTooltip="Correo electrónico">email</mat-icon>
+                        <span>{{order.customer_email || 'No disponible'}}</span>
+                    </div>
+                </div>
+
+                <!-- Status Control -->
+                <div class="section status-section">
+                    <h3>Estado del Pedido</h3>
+                    <div class="status-control">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Estado</mat-label>
+                            <mat-select [(ngModel)]="newStatus">
+                                <mat-option *ngFor="let option of statusOptions" [value]="option.value">
+                                    {{option.label}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <button mat-raised-button color="primary" (click)="updateStatus()"
+                            [disabled]="loading || newStatus === order.status">
+                            Actualizar
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Products Table -->
+            <div class="section products-section">
+                <h3>Productos</h3>
+                <div class="table-responsive">
+                    <table class="products-table">
+                        <thead>
+                            <tr>
+                                <th>Producto</th>
+                                <th>Precio Unit.</th>
+                                <th>Cantidad</th>
+                                <th>Subtotal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let detail of order.details">
+                                <td>{{detail.product_name}}</td>
+                                <td>{{detail.unit_price | currency:'USD'}}</td>
+                                <td>{{detail.quantity}}</td>
+                                <td>{{detail.subtotal | currency:'USD'}}</td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="3" class="total-label">Total:</td>
+                                <td class="total-value">{{order.total | currency:'USD'}}</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+
+            <div class="actions">
+                <button mat-button routerLink="/admin/orders">
+                    <mat-icon>arrow_back</mat-icon> Volver a la lista
+                </button>
+            </div>
+
+        </mat-card-content>
+    </mat-card>
+</div>

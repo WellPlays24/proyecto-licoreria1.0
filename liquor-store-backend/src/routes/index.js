@@ -12,6 +12,7 @@ const productRoutes = require('./product.routes');
 const cartRoutes = require('./cart.routes');
 const orderRoutes = require('./order.routes');
 const invoiceRoutes = require('./invoice.routes');
+const userRoutes = require('./user.routes');
 
 // ============================================
 // ASIGNAR RUTAS A SUS PREFIJOS
@@ -23,6 +24,7 @@ router.use('/products', productRoutes);
 router.use('/cart', cartRoutes);
 router.use('/orders', orderRoutes);
 router.use('/invoices', invoiceRoutes);
+router.use('/users', userRoutes);
 
 // ============================================
 // RUTA DE INFORMACIÓN DE LA API
@@ -37,7 +39,9 @@ router.get('/', (req, res) => {
       products: '/api/products',
       cart: '/api/cart',
       orders: '/api/orders',
-      invoices: '/api/invoices'
+      invoices: '/api/invoices',
+      users: '/api/users',
+      
     }
   });
 });

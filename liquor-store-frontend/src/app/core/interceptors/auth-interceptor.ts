@@ -14,10 +14,21 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const router = inject(Router);
   const token = authService.getToken();
 
+  // Verificar si se debe omitir el interceptor para 401
+  const skipInterceptor401 = req.headers.has('X-Skip-Interceptor-401');
+
   // Clonar la petición y agregar el token si existe
+  // También eliminamos el header personalizado para que no llegue al backend
   let authReq = req;
-  if (token) {
+
+  if (skipInterceptor401) {
     authReq = req.clone({
+      headers: req.headers.delete('X-Skip-Interceptor-401')
+    });
+  }
+
+  if (token) {
+    authReq = authReq.clone({
       setHeaders: {
         Authorization: `Bearer ${token}`
       }
@@ -27,8 +38,8 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   // Manejar la respuesta y errores
   return next(authReq).pipe(
     catchError((error) => {
-      // Si el error es 401 (no autorizado), hacer logout
-      if (error.status === 401) {
+      // Si el error es 401 (no autorizado) y NO debemos omitir el interceptor
+      if (error.status === 401 && !skipInterceptor401) {
         authService.logout();
         router.navigate(['/login']);
       }

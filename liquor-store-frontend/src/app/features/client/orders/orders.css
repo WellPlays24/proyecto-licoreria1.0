@@ -1,0 +1,142 @@
+/* ============================================
+   ESTILOS ORDERS CLIENTE
+   ============================================ */
+
+.orders-container {
+    padding: 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.page-header {
+    margin-bottom: 24px;
+}
+
+.page-header h1 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 28px;
+    font-weight: 500;
+    color: #333;
+    margin: 0 0 8px 0;
+}
+
+.page-header h1 mat-icon {
+    font-size: 32px;
+    width: 32px;
+    height: 32px;
+}
+
+.subtitle {
+    margin: 0;
+    color: #666;
+    font-size: 14px;
+}
+
+/* Loading */
+.loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 0;
+    gap: 20px;
+}
+
+.loading-container p {
+    color: #666;
+    font-size: 1.1rem;
+}
+
+/* Empty State */
+.empty-state mat-card-content {
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.empty-state mat-icon {
+    font-size: 80px;
+    width: 80px;
+    height: 80px;
+    color: #ccc;
+    margin-bottom: 20px;
+}
+
+.empty-state h2 {
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.empty-state p {
+    color: #999;
+    margin-bottom: 20px;
+}
+
+/* Table */
+.table-container {
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+table {
+    width: 100%;
+}
+
+th {
+    background-color: #f5f5f5;
+    font-weight: 600;
+    color: #333;
+}
+
+.total {
+    font-weight: 600;
+    color: #2e7d32;
+    font-size: 15px;
+}
+
+/* Status Chips */
+.status-pending {
+    background-color: #ff9800 !important;
+    color: white !important;
+}
+
+.status-processing {
+    background-color: #2196f3 !important;
+    color: white !important;
+}
+
+.status-shipped {
+    background-color: #9c27b0 !important;
+    color: white !important;
+}
+
+.status-delivered {
+    background-color: #4caf50 !important;
+    color: white !important;
+}
+
+.status-cancelled {
+    background-color: #f44336 !important;
+    color: white !important;
+}
+
+.status-default {
+    background-color: #757575 !important;
+    color: white !important;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .orders-container {
+        padding: 16px;
+    }
+
+    .page-header h1 {
+        font-size: 24px;
+    }
+
+    table {
+        font-size: 14px;
+    }
+}

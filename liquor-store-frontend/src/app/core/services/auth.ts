@@ -77,6 +77,15 @@ export class AuthService {
   }
 
   // ============================================
+  // CHANGE PASSWORD
+  // ============================================
+  changePassword(data: { currentPassword: string; newPassword: string }): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/auth/change-password`, data, {
+      headers: { 'X-Skip-Interceptor-401': 'true' }
+    });
+  }
+
+  // ============================================
   // VERIFICAR SI ESTÁ AUTENTICADO
   // ============================================
   isAuthenticated(): boolean {
@@ -127,7 +136,6 @@ export class AuthService {
     // Guardar token y usuario en localStorage
     localStorage.setItem('token', response.token);
     localStorage.setItem('user', JSON.stringify(response.user));
-    
     // Actualizar BehaviorSubject
     this.currentUserSubject.next(response.user);
   }
@@ -136,7 +144,7 @@ export class AuthService {
     const userJson = localStorage.getItem('user');
     if (userJson) {
       try {
-        const user = JSON.parse(userJson);
+        const user: User = JSON.parse(userJson);
         this.currentUserSubject.next(user);
       } catch (error) {
         console.error('Error al cargar usuario del localStorage', error);

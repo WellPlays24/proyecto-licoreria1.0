@@ -9,12 +9,47 @@
 }
 
 /* Hero Section */
-.hero-section {
+.hero-section0 {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
   padding: 80px 20px;
   text-align: center;
 }
+
+
+/* HERO CON IMAGEN HORIZONTAL CORRECTA */
+.hero-section {
+  background: url("https://i.ibb.co/FqjY05LK/Logo-Licoreria.png") center no-repeat;
+  background-size: contain; /* 🔥 clave: NO recorta ni deforma */
+  background-color: #000;   /* fondo elegante detrás */
+  padding: 160px 20px;      /* más altura para que la imagen respire */
+  text-align: center;
+  position: relative;
+  color: white;
+}
+
+/* capa oscura para mejorar lectura */
+.hero-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55); 
+  z-index: 1;
+}
+
+/* contenido encima del overlay */
+.hero-content {
+  position: relative;
+  z-index: 2;
+}
+
+.hero-buttons button {
+  margin: 10px;
+}
+
+
+
+
 
 .hero-content h1 {
   font-size: 3rem;

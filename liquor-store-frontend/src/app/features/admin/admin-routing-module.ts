@@ -9,8 +9,11 @@ import { CategoryList } from './categories/category-list/category-list';
 import { CategoryForm } from './categories/category-form/category-form';
 import { ProductList } from './products/product-list/product-list';
 import { ProductForm } from './products/product-form/product-form';
-import { Orders } from './orders/orders';
+import { OrderList } from './orders/order-list/order-list';
+import { OrderForm } from './orders/order-form/order-form';
 import { Invoices } from './invoices/invoices';
+import { UserList } from './users/user-list/user-list';
+import { UserForm } from './users/user-form/user-form';
 
 const routes: Routes = [
   {
@@ -48,11 +51,31 @@ const routes: Routes = [
   },
   {
     path: 'orders',
-    component: Orders
+    component: OrderList
+  },
+  {
+    path: 'orders/edit/:id',
+    component: OrderForm
   },
   {
     path: 'invoices',
     component: Invoices
+  },
+  {
+    path: 'users',
+    component: UserList
+  },
+  {
+    path: 'users/new',
+    component: UserForm
+  },
+  {
+    path: 'users/edit/:id',
+    component: UserForm
+  },
+  {
+    path: 'profile',
+    loadComponent: () => import('./profile/profile').then(m => m.Profile)
   }
 ];
 

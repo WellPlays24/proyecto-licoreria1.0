@@ -1,1 +1,220 @@
-<p>dashboard works!</p>
+<!-- ============================================
+     DASHBOARD ADMIN
+     ============================================ -->
+
+<div class="dashboard-container">
+  <h1 class="page-title">
+    <mat-icon>dashboard</mat-icon>
+    Dashboard
+  </h1>
+
+  <!-- Loading -->
+  <div *ngIf="loading" class="loading-container">
+    <mat-spinner></mat-spinner>
+  </div>
+
+  <!-- Contenido del Dashboard -->
+  <div *ngIf="!loading">
+    <!-- Tarjetas de estadísticas principales -->
+    <div class="stats-grid">
+      <!-- Total Productos -->
+      <mat-card class="stat-card">
+        <mat-card-content>
+          <div class="stat-icon" style="background-color: #3f51b5;">
+            <mat-icon>inventory</mat-icon>
+          </div>
+          <div class="stat-info">
+            <h3>{{ totalProducts }}</h3>
+            <p>Total Productos</p>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Total Categorías -->
+      <mat-card class="stat-card">
+        <mat-card-content>
+          <div class="stat-icon" style="background-color: #ff9800;">
+            <mat-icon>category</mat-icon>
+          </div>
+          <div class="stat-info">
+            <h3>{{ totalCategories }}</h3>
+            <p>Categorías</p>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Total Pedidos -->
+      <mat-card class="stat-card">
+        <mat-card-content>
+          <div class="stat-icon" style="background-color: #4caf50;">
+            <mat-icon>shopping_basket</mat-icon>
+          </div>
+          <div class="stat-info">
+            <h3>{{ totalOrders }}</h3>
+            <p>Total Pedidos</p>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Total Ventas -->
+      <mat-card class="stat-card">
+        <mat-card-content>
+          <div class="stat-icon" style="background-color: #f44336;">
+            <mat-icon>attach_money</mat-icon>
+          </div>
+          <div class="stat-info">
+            <h3>${{ totalSales.toFixed(2) }}</h3>
+            <p>Total Ventas</p>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <!-- Pedidos por estado -->
+    <mat-card class="section-card">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>analytics</mat-icon>
+          Pedidos por Estado
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="order-stats-grid">
+          <div class="order-stat">
+            <mat-icon color="warn">schedule</mat-icon>
+            <div>
+              <h3>{{ pendingOrders }}</h3>
+              <p>Pendientes</p>
+            </div>
+          </div>
+          <div class="order-stat">
+            <mat-icon color="accent">autorenew</mat-icon>
+            <div>
+              <h3>{{ processingOrders }}</h3>
+              <p>Procesando</p>
+            </div>
+          </div>
+          <div class="order-stat">
+            <mat-icon color="primary">local_shipping</mat-icon>
+            <div>
+              <h3>{{ shippedOrders }}</h3>
+              <p>Enviados</p>
+            </div>
+          </div>
+          <div class="order-stat">
+            <mat-icon style="color: #4caf50;">check_circle</mat-icon>
+            <div>
+              <h3>{{ deliveredOrders }}</h3>
+              <p>Entregados</p>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <div class="two-column-grid">
+      <!-- Productos con bajo stock -->
+      <mat-card class="section-card">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon>warning</mat-icon>
+            Productos con Bajo Stock
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div *ngIf="lowStockProducts.length === 0" class="empty-state">
+            <mat-icon>check_circle</mat-icon>
+            <p>Todos los productos tienen stock suficiente</p>
+          </div>
+          
+          <table *ngIf="lowStockProducts.length > 0" class="low-stock-table">
+            <thead>
+              <tr>
+                <th>Producto</th>
+                <th>Stock</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let product of lowStockProducts" 
+                  [class.critical]="product.stock < 5">
+                <td>{{ product.name }}</td>
+                <td>
+                  <mat-chip [color]="product.stock < 5 ? 'warn' : 'accent'">
+                    {{ product.stock }} unidades
+                  </mat-chip>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Últimos pedidos -->
+      <mat-card class="section-card">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon>receipt_long</mat-icon>
+            Últimos Pedidos
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div *ngIf="recentOrders.length === 0" class="empty-state">
+            <mat-icon>inbox</mat-icon>
+            <p>No hay pedidos recientes</p>
+          </div>
+
+          <div *ngIf="recentOrders.length > 0" class="recent-orders">
+            <div *ngFor="let order of recentOrders" class="order-item">
+              <div class="order-info">
+                <mat-icon [color]="getStatusColor(order.status)">
+                  {{ getStatusIcon(order.status) }}
+                </mat-icon>
+                <div>
+                  <strong>Pedido #{{ order.id }}</strong>
+                  <p class="order-customer">{{ order.customer_name || 'Cliente' }}</p>
+                  <p class="order-date">{{ order.created_at | date:'short' }}</p>
+                </div>
+              </div>
+              <div class="order-total">
+                <strong>${{ order.total }}</strong>
+                <mat-chip [color]="getStatusColor(order.status)" class="status-chip">
+                  {{ order.status }}
+                </mat-chip>
+              </div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <!-- Acciones rápidas -->
+    <mat-card class="section-card">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>bolt</mat-icon>
+          Acciones Rápidas
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="quick-actions">
+          <button mat-raised-button color="primary" routerLink="/admin/products/new">
+            <mat-icon>add</mat-icon>
+            Nuevo Producto
+          </button>
+          <button mat-raised-button color="accent" routerLink="/admin/categories/new">
+            <mat-icon>add</mat-icon>
+            Nueva Categoría
+          </button>
+          <button mat-raised-button routerLink="/admin/orders">
+            <mat-icon>shopping_basket</mat-icon>
+            Ver Todos los Pedidos
+          </button>
+          <button mat-raised-button routerLink="/admin/invoices">
+            <mat-icon>receipt</mat-icon>
+            Ver Facturas
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

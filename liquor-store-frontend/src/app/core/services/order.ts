@@ -14,7 +14,7 @@ import { Order, OrderResponse, CreateOrderResponse, UpdateStatusRequest } from '
 export class OrderService {
   private apiUrl = `${environment.apiUrl}/orders`;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   // ============================================
   // CREAR PEDIDO DESDE CARRITO
@@ -52,9 +52,15 @@ export class OrderService {
   // ACTUALIZAR ESTADO DEL PEDIDO (ADMIN)
   // ============================================
   updateStatus(id: number, status: string): Observable<{ message: string; order: Order }> {
-    const data: UpdateStatusRequest = { 
+    const data: UpdateStatusRequest = {
       status: status as 'pendiente' | 'procesando' | 'enviado' | 'entregado' | 'cancelado'
     };
     return this.http.patch<{ message: string; order: Order }>(`${this.apiUrl}/${id}/status`, data);
+  }
+  // ============================================
+  // ELIMINAR PEDIDO (ADMIN)
+  // ============================================
+  delete(id: number): Observable<{ message: string }> {
+    return this.http.delete<{ message: string }>(`${this.apiUrl}/${id}`);
   }
 }
