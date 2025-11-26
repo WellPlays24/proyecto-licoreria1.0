@@ -6,6 +6,7 @@
    
 .navbar {
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  background-color: #3f96a8;
 }
 
 .navbar-container {
@@ -23,7 +24,7 @@
   align-items: center;
   gap: 8px;
   text-decoration: none;
-  color: rgb(68, 4, 4);
+  color: rgb(8, 8, 8);
   font-size: 1.5rem;
   font-weight: 500;
   cursor: pointer;

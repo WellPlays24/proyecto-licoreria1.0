@@ -13,7 +13,7 @@ const getAll = async (req, res) => {
     const result = await query(
       'SELECT * FROM categories ORDER BY name ASC'
     );
-
+    
     res.json({
       categories: result.rows,
       total: result.rows.length
