@@ -36,5 +36,8 @@ router.get('/', verifyToken, isAdmin, orderController.getAll);
 //router.patch('/:id/status', verifyToken, isAdmin, orderController.updateStatus);
 router.patch('/:id/status', verifyToken, isAdmin, validateOrderStatus, orderController.updateStatus);
 
+// DELETE /api/orders/:id - Eliminar pedido y restaurar stock (RF - Admin)
+router.delete('/:id', verifyToken, isAdmin, orderController.deleteOrder);
+
 
 module.exports = router;

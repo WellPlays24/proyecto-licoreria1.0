@@ -47,7 +47,7 @@ export class OrderList implements OnInit, AfterViewInit {
         private orderService: OrderService,
         private productService: ProductService,
         private snackBar: MatSnackBar
-    ) {}
+    ) { }
 
     ngOnInit(): void {
         this.loadOrders();
@@ -91,55 +91,7 @@ export class OrderList implements OnInit, AfterViewInit {
             return;
         }
 
-        // 1. Obtener detalles completos del pedido (para restaurar stock)
-        this.orderService.getById(order.id).subscribe({
-            next: (response: any) => {
-                const orderDetails = response.order || response;
-
-                if (!orderDetails.details || orderDetails.details.length === 0) {
-                    // Sin productos → eliminar directamente
-                    this.executeDelete(order.id);
-                    return;
-                }
-
-                // 2. Restaurar stock de cada producto
-                const stockUpdates = orderDetails.details.map((detail: any) => {
-                    return new Promise<void>((resolve) => {
-                        this.productService.getById(detail.product_id).subscribe({
-                            next: (prodResponse) => {
-                                const currentStock = prodResponse.product.stock;
-                                const newStock = currentStock + detail.quantity;
-
-                                this.productService.updateStock(detail.product_id, newStock).subscribe({
-                                    next: () => resolve(),
-                                    error: (err) => {
-                                        console.error(`Error restoring stock for product ${detail.product_id}`, err);
-                                        resolve(); // Continuar aunque falle
-                                    }
-                                });
-                            },
-                            error: (err) => {
-                                console.error(`Error fetching product ${detail.product_id}`, err);
-                                resolve();
-                            }
-                        });
-                    });
-                });
-
-                // 3. Eliminar pedido tras restaurar stock
-                Promise.all(stockUpdates).then(() => {
-                    this.executeDelete(order.id);
-                });
-            },
-            error: (err) => {
-                console.error('Error fetching order details for deletion', err);
-                this.snackBar.open('Error al procesar la eliminación', 'Cerrar', { duration: 3000 });
-            }
-        });
-    }
-
-    private executeDelete(id: number): void {
-        this.orderService.delete(id).subscribe({
+        this.orderService.delete(order.id).subscribe({
             next: () => {
                 this.snackBar.open('Pedido eliminado y stock restaurado', 'Cerrar', { duration: 3000 });
                 this.loadOrders();

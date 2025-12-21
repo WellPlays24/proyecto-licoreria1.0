@@ -10,7 +10,7 @@ const { query, getClient } = require('../config/database');
 
 const createFromCart = async (req, res) => {
   const client = await getClient();
-  
+
   try {
     await client.query('BEGIN');
 
@@ -274,7 +274,7 @@ const getAll = async (req, res) => {
       FROM orders o
       INNER JOIN users u ON o.user_id = u.id
     `;
-    
+
     const queryParams = [];
 
     if (status) {
@@ -337,10 +337,87 @@ const updateStatus = async (req, res) => {
   }
 };
 
+// ============================================
+// ELIMINAR PEDIDO (Admin)
+// ============================================
+
+const deleteOrder = async (req, res) => {
+  const client = await getClient();
+
+  try {
+    const { id } = req.params;
+
+    await client.query('BEGIN');
+
+    // 1. Verificar si el pedido existe y obtener sus detalles
+    // Necesitamos los detalles para devolver el stock
+    const orderExists = await client.query(
+      'SELECT id FROM orders WHERE id = $1 FOR UPDATE',
+      [id]
+    );
+
+    if (orderExists.rows.length === 0) {
+      await client.query('ROLLBACK');
+      return res.status(404).json({
+        error: 'Pedido no encontrado'
+      });
+    }
+
+    const orderDetails = await client.query(
+      'SELECT product_id, quantity FROM order_details WHERE order_id = $1',
+      [id]
+    );
+
+    // 2. Devolver productos al stock
+    for (const item of orderDetails.rows) {
+      await client.query(
+        'UPDATE products SET stock = stock + $1 WHERE id = $2',
+        [item.quantity, item.product_id]
+      );
+    }
+
+    // 3. Eliminar facturas asociadas (si existen)
+    await client.query(
+      'DELETE FROM invoices WHERE order_id = $1',
+      [id]
+    );
+
+    // 4. Eliminar detalles del pedido
+    await client.query(
+      'DELETE FROM order_details WHERE order_id = $1',
+      [id]
+    );
+
+    // 5. Eliminar el pedido
+    await client.query(
+      'DELETE FROM orders WHERE id = $1',
+      [id]
+    );
+
+    await client.query('COMMIT');
+
+    res.json({
+      message: 'Pedido eliminado y stock restaurado correctamente',
+      orderId: id
+    });
+
+  } catch (error) {
+    await client.query('ROLLBACK');
+    console.error('Error en deleteOrder:', error);
+    res.status(500).json({
+      error: 'Error al eliminar pedido',
+      message: error.message
+    });
+  } finally {
+    client.release();
+  }
+};
+
 module.exports = {
   createFromCart,
   getMyOrders,
   getById,
   getAll,
-  updateStatus
+  updateStatus,
+  deleteOrder
 };
